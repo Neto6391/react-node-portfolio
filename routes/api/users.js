@@ -6,15 +6,17 @@ const bcrypt = require('bcryptjs');
 //Import User of Model
 const User = require('../../models/User');
 
-// @route       GET api/users/test
-// @desc        Test users route
-// @access      Public
+/** @route       GET api/users/test
+ * @desc        Test users route
+ * @access      Public
+ */
 router.get('/test', (req, res) => res.json({msg: "Users Works"})
 );
 
-// @route       GET api/users/register
-// @desc        Register user
-// @access      Public
+/** @route       POST api/users/register
+ * @desc        Register user
+ * @access      Public
+ */
 router.post('/register', (req, res) => {
     User.findOne({ email: req.body.email  })
         .then(user => {
@@ -26,8 +28,6 @@ router.post('/register', (req, res) => {
                     r: 'pg', //Rating
                     d: 'mm' //Default
                 })
-
-                
 
                 const newUser = new User({
                     name: req.body.name,
@@ -47,7 +47,35 @@ router.post('/register', (req, res) => {
                 });
             }
         });
-        
+});
+
+
+/** @route       POST api/users/login
+ * @desc        Login User / Returning JWT Token
+ * @access      Public
+ */
+router.post('/login', (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+
+    //Find User by Email
+    User.findOne({email})
+        .then(user => {
+            //Check for user
+            if(!user) {
+                return res.status(404).json({ email: 'User Not Found!' });
+            }
+
+            //Check Password
+            bcrypt.compare(password, user.password)
+                .then(isMatch => {
+                    if(isMatch) {
+                        res.json({msg: 'Success!'});
+                    } else {
+                        res.status(400).json({ password: 'Password Incorrect!' });
+                    }
+                });
+        });
 });
 
 module.exports = router;
