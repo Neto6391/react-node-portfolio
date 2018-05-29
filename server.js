@@ -1,12 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
-const users = require('./routes/api/users');
-const profile = require('./routes/api/profile');
-const posts = require('./routes/api/posts');
-
+//Import routes of api
+const { users, profile, posts } = require('./routes/api/index');
 
 const app = express();
+
+//Body Parser Middleware
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 //DB Config
 const db = require('./config/keys').mongoURI;
