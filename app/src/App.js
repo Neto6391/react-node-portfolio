@@ -21,6 +21,7 @@ import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Dashboard from './components/dashboard/Dashboard';
 import CreateProfile from './components/create-profile/CreateProfile';
+import EditProfile from './components/edit-profile/EditProfile';
 
 class App extends Component {
 
@@ -36,9 +37,10 @@ class App extends Component {
       
       //Check for expired token
       const currentTime = Date.now() / 1000;
+      
       if(decodedToken.exp < currentTime) {
         //logout user
-        store.dispatch(logoutUser);
+        store.dispatch(logoutUser());
         //Clear Current Profile
         store.dispatch(clearCurrentProfile());
         //Redirect to Login
@@ -60,6 +62,7 @@ class App extends Component {
                 <Route exact path="/login" component={ Login } />
                 <PrivateRoute exact path="/dashboard" component={ Dashboard } />
                 <PrivateRoute exact path="/create-profile" component={ CreateProfile } />
+                <PrivateRoute exact path="/edit-profile" component={ EditProfile } />
               </Switch>
             </div>
             <Footer />

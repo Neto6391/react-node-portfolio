@@ -1,9 +1,11 @@
-import { GET_PROFILE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE } from '../actions/types';
+import { GET_PROFILE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE, ALERT_MESSAGE, UPDATE_ALERT_MESSAGE } from '../actions/types';
 
 const initialState = {
     profile: null,
     profiles: null,
-    loading: false
+    loading: false,
+    update: false,
+    alertMessage: ""
 }
 
 export default function(state = initialState, action) {
@@ -11,7 +13,8 @@ export default function(state = initialState, action) {
         case PROFILE_LOADING:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                alertMessage: ""
             }
         case GET_PROFILE:
             return {
@@ -23,6 +26,16 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 profile: null
+            }
+        case ALERT_MESSAGE:
+            return {
+                ...state,
+                alertMessage: action.payload
+            }
+        case UPDATE_ALERT_MESSAGE:
+            return {
+                ...state,
+                update: action.payload
             }
         default:
             return state;

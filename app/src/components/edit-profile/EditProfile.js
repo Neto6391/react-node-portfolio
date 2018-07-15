@@ -1,15 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { createProfile } from '../../actions/profileActions';
+import { createProfile, getCurrentProfile, setUpdateAlertMessage } from '../../actions/profileActions';
 
 import TextFieldGroup from '../common/TextFieldGroup';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
 import InputGroup from '../common/InputGroup';
 import SelectListGroup from '../common/SelectListGroup';
 
-
-class CreateProfile extends Component {
+class EditProfile extends Component {
     
     constructor(props) {
         super(props);
@@ -35,9 +34,28 @@ class CreateProfile extends Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
 
+    componentDidMount() {
+        this.props.getCurrentProfile();
+    }
+
     componentWillReceiveProps(nextProps) {
         if(nextProps.errors) {
             this.setState({ errors: nextProps.errors });
+        }
+
+        if(nextProps.profile.profile) {
+            const { skills, social, ...profile } = nextProps.profile.profile;
+
+            //If profile field doesnt exist, make empty string
+            this.setState(prevState => ({
+                ...prevState,
+                ...profile,
+                ...social,
+                skills: skills.join(',') //Bring skills array back to CSV
+            }));
+
+            
+            
         }
     }
 
@@ -61,8 +79,8 @@ class CreateProfile extends Component {
         }
 
 
-        this.props.createProfile(profileData, this.props.history, "Profile Created With Success!");
-
+        this.props.createProfile(profileData, this.props.history, 'Profile Update Successfull!');
+        this.props.setUpdateAlertMessage();
     }
 
     onChange(e) {
@@ -140,10 +158,7 @@ class CreateProfile extends Component {
             <div className="container">
                 <div className="row">
                     <div className="col-md-8 m-auto">
-                        <h1 className="display-4 text-center">Create Your Profile</h1>
-                        <p className="create-profile">
-                            Let's  get some information to make your profile stand out
-                        </p>
+                        <h1 className="display-4 text-center">Edit Your Profile</h1>
                         <small className="d-block pb-3">* = required fields</small>
                         <form onSubmit={ this.onSubmit }>
                             <TextFieldGroup
@@ -235,8 +250,10 @@ class CreateProfile extends Component {
     }
 }
 
-CreateProfile.propTypes = {
+EditProfile.propTypes = {
     createProfile: PropTypes.func.isRequired,
+    setUpdateAlertMessage: PropTypes.func.isRequired,
+    getCurrentProfile: PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired
 }
@@ -246,4 +263,4 @@ const mapStateToProps = state => ({
     errors: state.errors
 });
 
-export default connect(mapStateToProps, { createProfile })(CreateProfile);
+export default connect(mapStateToProps, { createProfile, getCurrentProfile, setUpdateAlertMessage })(EditProfile);
