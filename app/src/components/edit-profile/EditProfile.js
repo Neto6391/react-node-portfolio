@@ -78,7 +78,6 @@ class EditProfile extends Component {
             instagram: this.state.instagram
         }
 
-
         this.props.createProfile(profileData, this.props.history, 'Profile Update Successfull!');
         this.props.setUpdateAlertMessage();
     }
