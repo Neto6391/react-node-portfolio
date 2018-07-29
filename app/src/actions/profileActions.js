@@ -1,6 +1,17 @@
 import axios from 'axios';
 
-import { GET_PROFILE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE, GET_ERRORS, SET_CURRENT_USER, ALERT_MESSAGE, UPDATE_ALERT_MESSAGE, DELETE_ALERT_MESSAGE } from './types';
+import { 
+    GET_PROFILE, 
+    PROFILE_LOADING, 
+    CLEAR_CURRENT_PROFILE, 
+    GET_ERRORS, 
+    SET_CURRENT_USER, 
+    ALERT_MESSAGE, 
+    UPDATE_ALERT_MESSAGE, 
+    DELETE_ALERT_MESSAGE,
+    GET_PROFILES 
+} from './types';
+
 import { logoutUser } from './authActions';
 
 //Get current profile
@@ -133,6 +144,24 @@ export const deleteEducation = (id, message) => dispatch => {
             dispatch({
                 type: GET_ERRORS,
                 payload: err.response.data
+            })
+        );
+}
+
+//Get all profiles
+export const getProfiles = () => dispatch => {
+    dispatch(setProfileLoading());
+    axios.get('/api/profile/all')
+        .then(res => {
+            dispatch({
+                type: GET_PROFILES,
+                payload: res.data
+            });
+        })
+        .catch(err => 
+            dispatch({
+                type: GET_PROFILES,
+                payload: null
             })
         );
 }
