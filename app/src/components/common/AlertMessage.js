@@ -10,7 +10,8 @@ const AlertMessage =  (
       className={
           classnames('alert', {
               'alert-info': props.update,
-              'alert-success': !props.update
+              'alert-success': !props.update && !props.delete,
+              'alert-danger': props.delete
           }) 
       }
       role="alert">

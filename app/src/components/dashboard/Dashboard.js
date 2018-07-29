@@ -7,6 +7,8 @@ import { getCurrentProfile, deleteAccount } from '../../actions/profileActions';
 import Spinner from '../common/Spinner';
 import ProfileActions from './ProfileActions';
 import AlertMessage from '../common/AlertMessage';
+import Experience from './Experience';
+import Education from './Education';
 
 class Dashboard extends Component {
   componentDidMount() {
@@ -19,7 +21,7 @@ class Dashboard extends Component {
 
   render() {
     const { user } = this.props.auth;
-    const { profile, loading, update, alertMessage } = this.props.profile;
+    const { profile, loading, update, alertMessage, deleted } = this.props.profile;
 
     let dashboardContent, alertMsg;
 
@@ -29,7 +31,7 @@ class Dashboard extends Component {
       // Check if logged in user has profile data
       if (Object.keys(profile).length > 0) {
         //Inform a message of confirmation for update or create profile for user
-        alertMsg = alertMessage.length > 0 ? <AlertMessage info={ alertMessage } update={ update } /> : null;
+        alertMsg = alertMessage.length > 0 ? <AlertMessage info={ alertMessage } update={ update } delete={ deleted } /> : null;
         
         dashboardContent = (
           <div>
@@ -37,6 +39,8 @@ class Dashboard extends Component {
               Welcome <Link to={ `/profile/${profile.handle}` }>{ user.name }</Link>
             </p>
             <ProfileActions />
+            <Experience experience={ profile.experience } />
+            <Education education={ profile.education } />
             <div>
               <button onClick={ this.onDeleteClick.bind(this) } className="btn btn-danger">Delete My Account</button>
             </div>

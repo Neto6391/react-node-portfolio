@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { GET_PROFILE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE, GET_ERRORS, SET_CURRENT_USER, ALERT_MESSAGE, UPDATE_ALERT_MESSAGE } from './types';
+import { GET_PROFILE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE, GET_ERRORS, SET_CURRENT_USER, ALERT_MESSAGE, UPDATE_ALERT_MESSAGE, DELETE_ALERT_MESSAGE } from './types';
 import { logoutUser } from './authActions';
 
 //Get current profile
@@ -50,12 +50,91 @@ export const setUpdateAlertMessage = () => {
     }
 }
 
+const setDeleteAlertMessage = () => {
+    return {
+        type: DELETE_ALERT_MESSAGE,
+        payload: true
+    }
+}
+
 //Alert Message
 export const setAlertMessage = (message) => {
     return {
         type: ALERT_MESSAGE,
         payload: message
     }
+}
+
+
+
+//Add Experience
+export const addExperience = (expData, history, message) => dispatch => {
+    axios.post("/api/profile/experience", expData)
+        .then(res => {
+            history.push('/dashboard');
+            dispatch(setAlertMessage(message));
+        })
+        .catch(err => 
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+        );
+}
+
+//Delete Experience
+export const deleteExperience = (id, message) => dispatch => {
+    axios.delete(`/api/profile/experience/${id}`)
+        .then(res => {
+            
+            dispatch({
+                type: GET_PROFILE,
+                payload: res.data
+            });
+            dispatch(setDeleteAlertMessage());
+            dispatch(setAlertMessage(message));
+        })
+        .catch(err => 
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+        );
+}
+
+//Add Education
+export const addEducation = (eduData, history, message) => dispatch => {
+    axios.post("/api/profile/education", eduData)
+        .then(res => {
+            history.push('/dashboard');
+            dispatch(setAlertMessage(message));
+        })
+        .catch(err => 
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+        );
+}
+
+//Delete Education
+export const deleteEducation = (id, message) => dispatch => {
+    axios.delete(`/api/profile/education/${id}`)
+        .then(res => {
+            
+            dispatch({
+                type: GET_PROFILE,
+                payload: res.data
+            });
+            dispatch(setDeleteAlertMessage());
+            dispatch(setAlertMessage(message));
+        })
+        .catch(err => 
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+        );
 }
 
 //Delete Account & Profile

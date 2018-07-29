@@ -1,10 +1,11 @@
-import { GET_PROFILE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE, ALERT_MESSAGE, UPDATE_ALERT_MESSAGE } from '../actions/types';
+import { GET_PROFILE, PROFILE_LOADING, CLEAR_CURRENT_PROFILE, ALERT_MESSAGE, UPDATE_ALERT_MESSAGE, DELETE_ALERT_MESSAGE } from '../actions/types';
 
 const initialState = {
     profile: null,
     profiles: null,
     loading: false,
     update: false,
+    deleted: false,
     alertMessage: ""
 }
 
@@ -14,7 +15,8 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 loading: true,
-                alertMessage: ""
+                alertMessage: "",
+                deleted: false
             }
         case GET_PROFILE:
             return {
@@ -36,6 +38,11 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 update: action.payload
+            }
+        case DELETE_ALERT_MESSAGE:
+            return {
+                ...state,
+                deleted: action.payload,
             }
         default:
             return state;
