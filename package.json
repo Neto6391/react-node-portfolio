@@ -8,7 +8,8 @@
     "start": "node server.js",
     "server": "nodemon server.js",
     "app": "npm start --prefix app",
-    "dev": "concurrently \"npm run server\" \"npm run app\""
+    "dev": "concurrently \"npm run server\" \"npm run app\"",
+    "heroku-postbuild": "npm_CONFIG_PRODUCTION=false npm install --prefix app && npm run build"
   },
   "author": "Neto6391",
   "license": "MIT",
