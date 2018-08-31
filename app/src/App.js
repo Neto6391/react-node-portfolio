@@ -11,7 +11,6 @@ import store from "./store";
 import PrivateRoute from "./components/common/PrivateRoute";
 
 import "./App.css";
-import "popper.js/dist/umd/popper";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min";
 
