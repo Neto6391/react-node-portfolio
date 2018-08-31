@@ -13,15 +13,14 @@ import {
 
 //ADD POST
 export const addPost = postData => dispatch => {
-  dispatch(clearErrors());
   axios
     .post("api/posts", postData)
-    .then(res =>
+    .then(res => {
       dispatch({
         type: ADD_POST,
         payload: res.data
-      })
-    )
+      });
+    })
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -53,7 +52,6 @@ export const getPosts = (load = true) => async dispatch => {
 //Get Post
 export const getPost = (load, id) => async dispatch => {
   if (load) dispatch(setPostLoading());
-  //console.log(`api/posts/${id}`);
   axios
     .get(`/api/posts/${id}`)
     .then(res =>
