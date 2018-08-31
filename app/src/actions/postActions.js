@@ -32,7 +32,7 @@ export const addPost = postData => dispatch => {
 //Get POSTS async
 export const getPosts = (load = true) => async dispatch => {
   if (load) dispatch(setPostLoading());
-
+  dispatch(clearErrors());
   axios
     .get("api/posts")
     .then(res =>
