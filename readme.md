@@ -11,3 +11,7 @@ Sistema desenvolvido com o foco de cadastrar curriculo e fazer uma mini rede soc
 3. Executar npm install, na pasta app, que fica localizado o do client React
 4. Executar npm install -g concurrently
 5. na pasta raiz executar npm run dev
+
+## Link do Projeto Hospedado na nuvem
+
+https://react-devportfolio.herokuapp.com
